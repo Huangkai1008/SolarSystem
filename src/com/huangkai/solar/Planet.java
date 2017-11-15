@@ -17,11 +17,39 @@ public class Planet extends Star {
     double degree;
     Star center;
 
+    boolean satellite;
+
     @Override
     public void draw(Graphics g) {
-        g.drawImage(img, (int)x, (int)y,null);
+        super.draw(g);
+        move();
+        if (!satellite) {
+            drawTrace(g);
+        }
+    }
 
-        //沿着椭圆轨迹飞行
+    /**
+     * 画出行星绕卫星轨迹
+     */
+    public void drawTrace(Graphics g){
+        double ovalX, ovalY, ovalWidth, ovalHeight;
+
+        ovalWidth = longAxis * 2;
+        ovalHeight = shortAxis * 2;
+        ovalX = center.x + center.width/2 - longAxis;
+        ovalY = center.y + center.height/2 - shortAxis;
+
+        Color c = g.getColor();
+        g.setColor(Color.blue);
+        g.drawOval((int)ovalX, (int)ovalY, (int)ovalWidth, (int)ovalHeight);
+        g.setColor(c);
+    }
+
+    /**
+     * 行星运行
+     */
+    public void move(){
+         //沿着椭圆轨迹飞行
         x = (center.x + center.width/2 ) + longAxis*Math.cos(degree);
         y = (center.y + center.width/2 ) + shortAxis*Math.sin(degree);
 
@@ -44,6 +72,12 @@ public class Planet extends Star {
         this.width = img.getWidth(null);
         this.height = img.getHeight(null);
     }
+
+    public Planet(Star center,String imgpath, double longAxis,
+			double shortAxis, double speed,boolean satellite) {
+		this(center, imgpath, longAxis, shortAxis, speed);
+		this.satellite = satellite;
+	}
 
     public Planet(Image img, double x, double y) {
         super(img, x, y);

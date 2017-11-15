@@ -12,11 +12,13 @@ import java.awt.*;
 public class SolarFrame extends MyFrame{
     Image bg = GameUtil.getImage("images/bg.jpg");
     Star sun = new Star("images/sun.jpg", Constant.GAME_WIDTH/2,Constant.GAME_HEIGHT/2);
+    Planet earth = new Planet(sun,"images/earth.jpg",150,100,0.1);
 
     @Override
     public void paint(Graphics g) {
          g.drawImage(bg,0,0,null);
          sun.draw(g);
+         earth.draw(g);
     }
 
     public static void main(String[] args) {
